@@ -30,12 +30,14 @@ class App {
     this.planets = [];
 
     this.sunStar = {
+      name: 'sunStar',
       x: this.stageWidth / 2,
       y: this.stageHeight / 2,
     };
 
     PlanetInfo.forEach((planet) => {
       this[planet.name] = new Planet(
+        planet.name,
         this[planet.star],
         planet.radius,
         planet.color,
@@ -49,8 +51,7 @@ class App {
 
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
-
-    this.ctx.fillStyle = 'rgba(77, 87, 105, 0.1)';
+    this.ctx.fillStyle = '#4D5769';
     this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
     this.planets.forEach((planet) => {
