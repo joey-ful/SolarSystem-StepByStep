@@ -51,7 +51,7 @@ class App {
 
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
-    this.ctx.fillStyle = '#4D5769';
+    this.ctx.fillStyle = 'rgba(77, 87, 105, 0.2)';
     this.ctx.fillRect(0, 0, this.stageWidth, this.stageHeight);
 
     this.planets.forEach((planet) => {
