@@ -6,18 +6,11 @@ class App {
   constructor() {
     this.stage = document.createElement('div');
     this.stage.setAttribute('id', 'stage');
-
-    this.backcanvas = document.createElement('canvas');
-    this.backcanvas.setAttribute('id', 'backcanvas');
-    this.backctx = this.backcanvas.getContext('2d');
-
-    this.canvas = document.createElement('canvas');
-    this.canvas.setAttribute('id', 'canvas');
-    this.ctx = this.canvas.getContext('2d');
-
     document.body.appendChild(this.stage);
-    this.stage.appendChild(this.backcanvas);
-    this.stage.appendChild(this.canvas);
+
+    this.stage.appendChild(this.createAndAppendCanvas('back'));
+    this.stage.appendChild(this.createAndAppendCanvas(''));
+    this.stage.appendChild(this.createAndAppendCanvas('shadow'));
 
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
@@ -27,18 +20,29 @@ class App {
     this.animate();
   }
 
+  createAndAppendCanvas(name) {
+    this[`${name}canvas`] = document.createElement('canvas');
+    this[`${name}canvas`].setAttribute('id', `${name}canvas`);
+
+    this[`${name}ctx`] = this[`${name}canvas`].getContext('2d');
+
+    return this[`${name}canvas`];
+  }
+
   resize() {
     this.stageWidth = document.body.clientWidth;
     this.stageHeight = document.body.clientHeight;
 
-    this.canvas.width = this.stageWidth * 2;
-    this.canvas.height = this.stageHeight * 2;
+    this.sizeCanvasAndScaleCtx('');
+    this.sizeCanvasAndScaleCtx('back');
+    this.sizeCanvasAndScaleCtx('shadow');
+  }
 
-    this.backcanvas.width = this.stageWidth * 2;
-    this.backcanvas.height = this.stageHeight * 2;
+  sizeCanvasAndScaleCtx(name) {
+    this[`${name}canvas`].width = this.stageWidth * 2;
+    this[`${name}canvas`].height = this.stageHeight * 2;
 
-    this.backctx.scale(2, 2);
-    this.ctx.scale(2, 2);
+    this[`${name}ctx`].scale(2, 2);
   }
 
   createPlanets() {
@@ -67,16 +71,17 @@ class App {
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
+    this.shadowctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
 
     this.planets.forEach((planet) => {
       if (planet.name === 'sun') {
         this.ctx.save();
         this.ctx.shadowColor = planet.color;
         this.ctx.shadowBlur = planet.radius * 1.5;
-        planet.update(this.ctx);
+        planet.update(this.ctx, this.shadowctx);
         this.ctx.restore();
       } else {
-        planet.update(this.ctx);
+        planet.update(this.ctx, this.shadowctx);
       }
     });
   }

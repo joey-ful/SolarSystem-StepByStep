@@ -11,7 +11,7 @@ export default class Planet {
     this.clicked = false;
   }
 
-  update(ctx) {
+  update(ctx, shadowctx) {
     this.interaction();
     this.theta += this.velocity;
 
@@ -23,6 +23,7 @@ export default class Planet {
     this.x = this.startX + this.orbitRadius * Math.cos(this.theta);
     this.y = this.startY + this.orbitRadius * Math.sin(this.theta);
 
+    this.drawShadow(shadowctx);
     this.draw(ctx);
   }
 
@@ -34,8 +35,32 @@ export default class Planet {
     ctx.closePath();
   }
 
+  drawShadow(shadowctx) {
+    if (this.name !== 'sun' && this.name !== 'moon') {
+      this.toX = this.x + (this.radius + 30) * Math.cos(this.theta);
+      this.toY = this.y + (this.radius + 30) * Math.sin(this.theta);
+      let gradient = shadowctx.createLinearGradient(
+        this.x,
+        this.y,
+        this.toX,
+        this.toY
+      );
+      // gradient.addColorStop(0.5, 'rgba(37, 39, 57, 0.3)');
+      gradient.addColorStop(0.5, 'rgba(33, 69, 104, 0.3)');
+
+      shadowctx.beginPath();
+      shadowctx.strokeStyle = gradient;
+      shadowctx.lineWidth = this.radius * 2;
+      shadowctx.moveTo(this.x, this.y);
+      shadowctx.lineTo(this.toX, this.toY);
+      shadowctx.lineWidth = this.radius * 2;
+      shadowctx.stroke();
+      shadowctx.closePath();
+    }
+  }
+
   interaction() {
-    this.canvas = document.getElementById('canvas');
+    this.canvas = document.getElementById('shadowcanvas');
 
     this.canvas.addEventListener('mousedown', this.onMouseDown);
     this.canvas.addEventListener('mouseup', this.restore);
