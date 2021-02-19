@@ -10,19 +10,14 @@ export default class Planet {
     this.theta = Math.random() * Math.PI * 2;
     this.clicked = false;
 
-    this.x = star.x + orbitRadius * Math.cos(this.theta);
-    this.y = star.y + orbitRadius * Math.sin(this.theta);
-
     this.mouse = {
-      x: star.x + orbitRadius * Math.cos(this.theta),
-      y: star.y + orbitRadius * Math.sin(this.theta),
-    };
-
-    this.laststar = {
       x: star.x,
       y: star.y,
     };
-    this.distanceFromCenter = this.orbitRadius;
+
+    this.distanceFromCenter = orbitRadius;
+    this.x = star.x + orbitRadius * Math.cos(this.theta);
+    this.y = star.y + orbitRadius * Math.sin(this.theta);
   }
 
   update(ctx) {
@@ -70,8 +65,6 @@ export default class Planet {
       Math.abs(this.offsetY) <= this.radius
     ) {
       this.clicked = true;
-      this.mouse.x = e.clientX - this.offsetX;
-      this.mouse.y = e.clientY - this.offsetY;
       this.canvas.addEventListener('mousemove', this.onMouseMove);
     }
   };
