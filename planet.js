@@ -13,11 +13,8 @@ export default class Planet {
   update(ctx) {
     this.theta += this.velocity;
 
-    this.startX = this.star.x;
-    this.startY = this.star.y;
-
-    this.x = this.startX + this.orbitRadius * Math.cos(this.theta);
-    this.y = this.startY + this.orbitRadius * Math.sin(this.theta);
+    this.x = this.star.x + this.orbitRadius * Math.cos(this.theta);
+    this.y = this.star.y + this.orbitRadius * Math.sin(this.theta);
 
     this.draw(ctx);
   }
