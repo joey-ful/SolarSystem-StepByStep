@@ -61,7 +61,7 @@ class App {
         planet.radius,
         planet.color,
         planet.velocity,
-        planet.orbitRadius
+        planet.orbitRadius,
       );
 
       this.planets.push(this[planet.name]);
