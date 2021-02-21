@@ -24,7 +24,7 @@ export const PlanetInfo = [
     radius: 11,
     color: '#F3E6B7',
     velocity: 0.005,
-    orbitRadius: 155,
+    orbitRadius: 142,
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ export const PlanetInfo = [
     radius: 13,
     color: '#AAE7F0',
     velocity: 0.006,
-    orbitRadius: 196,
+    orbitRadius: 172,
   },
   {
     id: 4,
@@ -51,7 +51,7 @@ export const PlanetInfo = [
     radius: 6,
     color: '#F39999',
     velocity: 0.007,
-    orbitRadius: 239,
+    orbitRadius: 219,
   },
   {
     id: 6,
@@ -60,7 +60,7 @@ export const PlanetInfo = [
     radius: 28,
     color: '#B3D8A1',
     velocity: 0.004,
-    orbitRadius: 275,
+    orbitRadius: 260,
   },
   {
     id: 7,
@@ -69,7 +69,7 @@ export const PlanetInfo = [
     radius: 24,
     color: '#E3AE90',
     velocity: 0.0035,
-    orbitRadius: 333,
+    orbitRadius: 310,
   },
   {
     id: 8,
@@ -78,7 +78,7 @@ export const PlanetInfo = [
     radius: 18,
     color: '#8C7E75',
     velocity: 0.003,
-    orbitRadius: 387,
+    orbitRadius: 357,
   },
   {
     id: 9,
@@ -87,6 +87,6 @@ export const PlanetInfo = [
     radius: 16,
     color: '#A888BB',
     velocity: 0.002,
-    orbitRadius: 435,
+    orbitRadius: 396,
   },
 ];
