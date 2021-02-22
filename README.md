@@ -39,15 +39,24 @@
 
 ## `shadow` branch - [Shadow](https://github.com/joey-ful/SolarSystem/tree/shadow)
 [블로그](https://joey-ful.github.io/canvas/solar-system-shadow/)
-- Non-elastic drag interaction
 - Simple rectangular shadow casting to other planets
+- Interactive shadow
+- Elastic drag interaction
 
 ![shadow](https://user-images.githubusercontent.com/52592748/108364347-50d87f00-7239-11eb-96cc-126b93ced7f7.gif)
 
 ## `shadow-round` branch - [Round Shadow](https://github.com/joey-ful/SolarSystem/tree/shadow-round)
 [블로그](https://joey-ful.github.io/canvas/solar-system-shadow-round/)
-- Non-elastic drag interaction
-- More natural round shadow (Used Bezier curve)
-- Planet images added
+- Round shadow casting to other planets
+- Interactive shadow
+- Use bezier curve
+- Elastic drag interaction
+
+![roundshadow1](https://user-images.githubusercontent.com/52592748/108710894-ff413480-7557-11eb-96da-03343115e1dd.gif)
+
+## `planet-art` branch - [Planet arts added](https://github.com/joey-ful/SolarSystem/tree/planet-art)
+[블로그](https://joey-ful.github.io/canvas/solar-system-planet-art/)
+- Added planet arts instead of round circles
+- Elastic drag interaction
 
 ![shadow](https://user-images.githubusercontent.com/52592748/108626000-47495400-7491-11eb-82c0-66f63b16f8a2.gif)
