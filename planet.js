@@ -7,10 +7,7 @@ export default class Planet {
     this.velocity = velocity;
     this.orbitRadius = orbitRadius;
 
-    this.velocity = 0;
     this.theta = Math.random() * Math.PI * 2;
-    this.theta = Math.PI / 2;
-    this.theta = Math.PI;
     this.clicked = false;
     this.mouse = {
       x: star.x,
