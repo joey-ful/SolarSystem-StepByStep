@@ -10,12 +10,16 @@ export default class Planet {
     // this.velocity = 0;
     this.theta = Math.random() * Math.PI * 2;
     // this.theta = Math.PI / 2;
+    this.theta = Math.PI;
     this.clicked = false;
     this.mouse = {
       x: star.x,
       y: star.y,
     };
 
+    this.distanceFromCenter = orbitRadius;
+    this.x = star.x + orbitRadius * Math.cos(this.theta);
+    this.y = star.y + orbitRadius * Math.sin(this.theta);
     this.img = new Image();
   }
 
@@ -24,15 +28,20 @@ export default class Planet {
     this.theta += this.velocity;
 
     if (this.clicked) {
-      this.x = this.mouse.x;
-      this.y = this.mouse.y;
+      this.x += (this.mouse.x - this.x) * 0.05;
+      this.y += (this.mouse.y - this.y) * 0.05;
     } else {
-      this.x = this.star.x + this.orbitRadius * Math.cos(this.theta);
-      this.y = this.star.y + this.orbitRadius * Math.sin(this.theta);
+      this.distanceFromCenter = Math.sqrt(
+        Math.pow(this.star.x - this.x, 2) + Math.pow(this.star.y - this.y, 2)
+      );
+      this.distanceFromCenter +=
+        (this.orbitRadius - this.distanceFromCenter) * 0.2;
+      this.x = this.star.x + this.distanceFromCenter * Math.cos(this.theta);
+      this.y = this.star.y + this.distanceFromCenter * Math.sin(this.theta);
     }
 
     this.drawShadow(shadowctx);
-    // this.test(shadowctx);
+    this.test(shadowctx);
     this.draw(ctx);
     // this.mid(ctx);
   }
@@ -41,19 +50,23 @@ export default class Planet {
     ctx.beginPath();
 
     let width = this.radius * 2;
+    let imgX = this.x - this.radius;
+    let imgY = this.y - this.radius;
 
     if (this.name === 'saturn') {
       width = this.radius * 4;
-      this.x -= this.radius * 1;
+      imgX -= this.radius;
+      // this.x -= this.radius * 1;
     } else if (this.name === 'uranus') {
-      this.x -= this.radius * 1.1;
+      // this.x -= this.radius * 1.1;
+      imgX -= this.radius * 1.1;
       width = this.radius * 4.2;
     }
 
     ctx.drawImage(
       this.img,
-      this.x - this.radius,
-      this.y - this.radius,
+      imgX,
+      imgY,
       width,
       this.radius * 2
     );
@@ -77,20 +90,14 @@ export default class Planet {
 
   test(shadowctx) {
     if (this.name !== 'sun' && this.name !== 'moon') {
-      let offset = Math.PI - this.theta;
-      Ax = this.x - this.radius * Math.sin(offset);
-      Ay = this.y - this.radius * Math.cos(offset);
-      Bx = this.x + this.radius * Math.sin(offset);
-      By = this.y + this.radius * Math.cos(offset);
-
       shadowctx.beginPath();
-      shadowctx.arc(Ax, Ay, 2, 0, Math.PI * 2);
+      shadowctx.arc(this.Ax, this.Ay, 2, 0, Math.PI * 2);
       shadowctx.fillStyle = 'hotpink';
       shadowctx.fill();
       shadowctx.closePath();
 
       shadowctx.beginPath();
-      shadowctx.arc(Bx, By, 2, 0, Math.PI * 2);
+      shadowctx.arc(this.Bx, this.By, 2, 0, Math.PI * 2);
       shadowctx.fillStyle = 'cyan';
       shadowctx.fill();
       shadowctx.closePath();
@@ -99,7 +106,7 @@ export default class Planet {
 
   drawShadow(shadowctx) {
     if (this.name !== 'sun' && this.name !== 'moon') {
-      this.findShadowLength();
+      this.findXYdistance();
       this.findShadowCurveDepth();
       this.findShadowPoints();
 
@@ -129,16 +136,28 @@ export default class Planet {
     }
   }
 
-  findShadowLength() {
+  findXYdistance() {
+    let radius = this.radius;
+    
+    if (this.name === 'saturn') {
+      radius = this.radius * 0.8;
+    }
+
+    this.radiusX = radius * Math.sin(this.theta);
+    this.radiusY = radius * Math.cos(this.theta);
     this.shadowLengthX = (this.radius + 20) * Math.cos(this.theta);
     this.shadowLengthY = (this.radius + 20) * Math.sin(this.theta);
+
+    if (this.name === 'mars') {
+      this.shadowLengthX = (this.radius + 46) * Math.cos(this.theta);
+      this.shadowLengthY = (this.radius + 46) * Math.sin(this.theta);
+    }
   }
 
   findShadowCurveDepth() {
     this.BezierX = (this.radius / 1.5) * Math.cos(this.theta);
     this.BezierY = (this.radius / 1.5) * Math.sin(this.theta);
   }
-
   findShadowPoints() {
     let radius = this.radius;
 
@@ -152,11 +171,14 @@ export default class Planet {
       this.shadowLengthY = (this.radius + 46) * Math.sin(this.theta);
     }
 
-    let angle = Math.PI - this.theta;
-    this.Ax = this.x - radius * Math.sin(angle);
-    this.Ay = this.y - radius * Math.cos(angle);
-    this.Bx = this.x + radius * Math.sin(angle);
-    this.By = this.y + radius * Math.cos(angle);
+    this.Ax = this.x + this.radiusX;
+    this.Ay = this.y - this.radiusY;
+    this.Bx = this.x - this.radiusX;
+    this.By = this.y + this.radiusY;
+    this.Cx = this.Bx + this.shadowLengthX;
+    this.Cy = this.By + this.shadowLengthY;
+    this.Dx = this.Ax + this.shadowLengthX;
+    this.Dy = this.Ay + this.shadowLengthY;
   }
 
   interaction() {
@@ -171,10 +193,11 @@ export default class Planet {
     this.offsetX = e.clientX - this.x;
     this.offsetY = e.clientY - this.y;
     let radius = this.radius;
+
     if (this.name === 'saturn') {
       radius = this.radius * 4;
     } else if (this.name === 'uranus') {
-      raidus = this.radius * 4.2;
+      radius = this.radius * 4.2;
     }
 
     if (
