@@ -6,7 +6,7 @@ export default class Planet {
     this.color = color;
     this.velocity = velocity;
     this.orbitRadius = orbitRadius;
-    
+
     this.theta = Math.random() * Math.PI * 2;
     this.clicked = false;
     this.mouse = {
@@ -43,12 +43,11 @@ export default class Planet {
 
   draw(ctx) {
     ctx.beginPath();
-    ctx.arc(this.x, this.y,this.radius, 0, Math.PI * 2);
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
   }
-
 
   test(shadowctx) {
     if (this.name !== 'sun' && this.name !== 'moon') {
@@ -106,9 +105,13 @@ export default class Planet {
     this.radiusY = this.radius * Math.cos(this.theta);
     this.shadowLengthX = (this.radius + 20) * Math.cos(this.theta);
     this.shadowLengthY = (this.radius + 20) * Math.sin(this.theta);
+    
     if (this.name === 'mars') {
       this.shadowLengthX = (this.radius + 46) * Math.cos(this.theta);
       this.shadowLengthY = (this.radius + 46) * Math.sin(this.theta);
+    } else if (this.name === 'earth') {
+      this.shadowLengthX = (this.radius + 30) * Math.cos(this.theta);
+      this.shadowLengthY = (this.radius + 30) * Math.sin(this.theta);
     }
   }
 
