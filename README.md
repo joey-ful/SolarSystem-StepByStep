@@ -1,9 +1,9 @@
 # `shadow` branch
 ## Solar System with shadow
 
-[블로그](https://joey-ful.github.io/canvas/solar-system-shadow/)
-- Normal drag interaction
-- Shadow casting to other planets
-- Incomplete
+[블로그](https://joey-ful.github.io/canvas/solar-system-shadow-round/)
+- Round shadow casting to other planets
+- Interactive shadow
+- Use bezier curve
 
-![shadow](https://user-images.githubusercontent.com/52592748/108364347-50d87f00-7239-11eb-96cc-126b93ced7f7.gif)
+![roundshadow1](https://user-images.githubusercontent.com/52592748/108710894-ff413480-7557-11eb-96da-03343115e1dd.gif)
