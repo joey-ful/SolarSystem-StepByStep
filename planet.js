@@ -7,9 +7,9 @@ export default class Planet {
     this.velocity = velocity;
     this.orbitRadius = orbitRadius;
 
-    // this.velocity = 0;
+    this.velocity = 0;
     this.theta = Math.random() * Math.PI * 2;
-    // this.theta = Math.PI / 2;
+    this.theta = Math.PI / 2;
     this.theta = Math.PI;
     this.clicked = false;
     this.mouse = {
@@ -41,9 +41,8 @@ export default class Planet {
     }
 
     this.drawShadow(shadowctx);
-    this.test(shadowctx);
+    // this.test(shadowctx);
     this.draw(ctx);
-    // this.mid(ctx);
   }
 
   draw(ctx) {
@@ -56,11 +55,9 @@ export default class Planet {
     if (this.name === 'saturn') {
       width = this.radius * 4;
       imgX -= this.radius;
-      // this.x -= this.radius * 1;
     } else if (this.name === 'uranus') {
-      // this.x -= this.radius * 1.1;
-      imgX -= this.radius * 1.1;
       width = this.radius * 4.2;
+      imgX -= this.radius * 1.1;
     }
 
     ctx.drawImage(
@@ -71,20 +68,6 @@ export default class Planet {
       this.radius * 2
     );
     this.img.src = `./srcs/${this.name}.png`;
-    ctx.closePath();
-  }
-
-  mid(ctx) {
-    let canvas = document.getElementById('canvas');
-
-    let stageWidth = canvas.clientWidth;
-    let stageHeight = canvas.clientHeight;
-    ctx.beginPath();
-    ctx.moveTo(stageWidth / 2, stageHeight / 2);
-    ctx.lineTo(stageWidth / 2, stageHeight);
-    ctx.strokeStyle = 'red';
-    ctx.lineWidth = 2;
-    ctx.stroke();
     ctx.closePath();
   }
 
@@ -151,6 +134,9 @@ export default class Planet {
     if (this.name === 'mars') {
       this.shadowLengthX = (this.radius + 46) * Math.cos(this.theta);
       this.shadowLengthY = (this.radius + 46) * Math.sin(this.theta);
+    } else if (this.name === 'earth') {
+      this.shadowLengthX = (this.radius + 30) * Math.cos(this.theta);
+      this.shadowLengthY = (this.radius + 30) * Math.sin(this.theta);
     }
   }
 
@@ -158,19 +144,8 @@ export default class Planet {
     this.BezierX = (this.radius / 1.5) * Math.cos(this.theta);
     this.BezierY = (this.radius / 1.5) * Math.sin(this.theta);
   }
+  
   findShadowPoints() {
-    let radius = this.radius;
-
-    if (this.name === 'saturn') {
-      radius = this.radius * 0.8;
-    } else if (this.name === 'earth') {
-      this.shadowLengthX = (this.radius + 30) * Math.cos(this.theta);
-      this.shadowLengthY = (this.radius + 30) * Math.sin(this.theta);
-    } else if (this.name === 'mars') {
-      this.shadowLengthX = (this.radius + 46) * Math.cos(this.theta);
-      this.shadowLengthY = (this.radius + 46) * Math.sin(this.theta);
-    }
-
     this.Ax = this.x + this.radiusX;
     this.Ay = this.y - this.radiusY;
     this.Bx = this.x - this.radiusX;
