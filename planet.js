@@ -13,6 +13,10 @@ export default class Planet {
       x: star.x,
       y: star.y,
     };
+
+    this.distanceFromCenter = orbitRadius;
+    this.x = star.x + orbitRadius * Math.cos(this.theta);
+    this.y = star.y + orbitRadius * Math.sin(this.theta);
   }
 
   update(ctx, shadowctx) {
@@ -20,11 +24,16 @@ export default class Planet {
     this.theta += this.velocity;
 
     if (this.clicked) {
-      this.x = this.mouse.x;
-      this.y = this.mouse.y;
+      this.x += (this.mouse.x - this.x) * 0.05;
+      this.y += (this.mouse.y - this.y) * 0.05;
     } else {
-      this.x = this.star.x + this.orbitRadius * Math.cos(this.theta);
-      this.y = this.star.y + this.orbitRadius * Math.sin(this.theta);
+      this.distanceFromCenter = Math.sqrt(
+        Math.pow(this.star.x - this.x, 2) + Math.pow(this.star.y - this.y, 2)
+      );
+      this.distanceFromCenter +=
+        (this.orbitRadius - this.distanceFromCenter) * 0.2;
+      this.x = this.star.x + this.distanceFromCenter * Math.cos(this.theta);
+      this.y = this.star.y + this.distanceFromCenter * Math.sin(this.theta);
     }
 
     this.drawShadow(shadowctx);
